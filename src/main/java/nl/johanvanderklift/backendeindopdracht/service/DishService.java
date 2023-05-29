@@ -1,12 +1,10 @@
 package nl.johanvanderklift.backendeindopdracht.service;
 
 import nl.johanvanderklift.backendeindopdracht.dto.DishDto;
+import nl.johanvanderklift.backendeindopdracht.exception.RecordNotFoundException;
 import nl.johanvanderklift.backendeindopdracht.model.Dish;
 import nl.johanvanderklift.backendeindopdracht.repository.DishRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +33,12 @@ public class DishService {
     }
 
     public DishDto getDish(Long id) {
-        Dish dish = dishRepository.findById(id).orElseThrow();
+        Dish dish = dishRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record with id: " + id + " not found"));
         return transferDishToDto(dish);
     }
 
     public void updateDish(Long id, DishDto dto) {
-        Dish oldDish = dishRepository.findById(id).orElseThrow();
+        Dish oldDish = dishRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record with id: " + id + " not found"));
         dishRepository.save(transferDtoToDish(dto, oldDish));
     }
 

@@ -1,6 +1,7 @@
 package nl.johanvanderklift.backendeindopdracht.service;
 
 import nl.johanvanderklift.backendeindopdracht.dto.MenuDto;
+import nl.johanvanderklift.backendeindopdracht.exception.RecordNotFoundException;
 import nl.johanvanderklift.backendeindopdracht.model.Menu;
 import nl.johanvanderklift.backendeindopdracht.repository.MenuRepository;
 import org.springframework.stereotype.Service;
@@ -32,13 +33,15 @@ public class MenuService {
     }
 
     public MenuDto getMenu(Long id) {
-        Menu menu = menuRepository.findById(id).orElseThrow();
+        Menu menu = menuRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record with id: " + id + " not found"));
         return transferMenuToDto(menu);
     }
 
     public void updateMenu(Long id, MenuDto dto) {
-        Menu oldMenu = menuRepository.findById(id).orElseThrow();
-        menuRepository.save(transferDtoToMenu(dto, oldMenu));
+        Menu oldMenu = menuRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record with id: " + id + " not found"));
+        if (oldMenu != null) {
+            menuRepository.save(transferDtoToMenu(dto, oldMenu));
+        }
     }
 
     public void deleteMenu(Long id) {
