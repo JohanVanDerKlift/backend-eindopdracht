@@ -49,18 +49,14 @@ public class OrderService {
     }
 
     private Order transferDtoToOrder(OrderDto dto, Order order) {
-        order.setDeliveryCost(dto.deliveryCost);
-        order.setTax(dto.tax);
-        order.setTotalPrice(dto.totalPrice);
+        order.setDateTime(dto.dateTime);
         return order;
     }
 
     private OrderDto transferOrderToDto(Order order) {
         OrderDto dto = new OrderDto();
         dto.id = order.getId();
-        dto.tax = order.getTax();
-        dto.deliveryCost = order.getDeliveryCost();
-        dto.totalPrice = order.getTotalPrice();
+        dto.dateTime = order.getDateTime();
         return dto;
     }
 }

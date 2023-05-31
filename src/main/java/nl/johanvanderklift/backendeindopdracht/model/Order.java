@@ -6,24 +6,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "client_order")
+@Table(name = "customer_order")
 public class Order {
     @Id
     @GeneratedValue
     private Long id;
-    private double tax;
-    private double deliveryCost;
-    private double totalPrice;
-
-    public Order() {
-    }
-
-    public Order(Long id, double tax, double deliveryCost, double totalPrice) {
-        this.id = id;
-        this.tax = tax;
-        this.deliveryCost = deliveryCost;
-        this.totalPrice = totalPrice;
-    }
+    private String dateTime;
 
     public Long getId() {
         return id;
@@ -33,27 +21,11 @@ public class Order {
         this.id = id;
     }
 
-    public double getTax() {
-        return tax;
+    public String getDateTime() {
+        return dateTime;
     }
 
-    public void setTax(double tax) {
-        this.tax = tax;
-    }
-
-    public double getDeliveryCost() {
-        return deliveryCost;
-    }
-
-    public void setDeliveryCost(double deliveryCost) {
-        this.deliveryCost = deliveryCost;
-    }
-
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(double totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 }
