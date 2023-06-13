@@ -1,9 +1,8 @@
 package nl.johanvanderklift.backendeindopdracht.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "dish")
@@ -15,6 +14,8 @@ public class Dish {
     private String category;
     private double price;
     private boolean available;
+    @ManyToMany(mappedBy = "dishes")
+    private List<Menu> menus;
 
     public Dish() {
     }
@@ -65,5 +66,13 @@ public class Dish {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 }
