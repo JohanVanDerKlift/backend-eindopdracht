@@ -3,6 +3,7 @@ package nl.johanvanderklift.backendeindopdracht.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Invoice {
@@ -13,6 +14,9 @@ public class Invoice {
     private double deliveryCost;
     private double totalPrice;
     private boolean isPaid;
+
+    @OneToOne(mappedBy = "invoice")
+    private Order order;
 
     public Long getId() {
         return id;
@@ -52,5 +56,13 @@ public class Invoice {
 
     public void setPaid(boolean paid) {
         isPaid = paid;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

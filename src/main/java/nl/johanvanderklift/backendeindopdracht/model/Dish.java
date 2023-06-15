@@ -17,16 +17,8 @@ public class Dish {
     @ManyToMany(mappedBy = "dishes")
     private List<Menu> menus;
 
-    public Dish() {
-    }
-
-    public Dish(Long id, String name, String category, double price, boolean available) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.price = price;
-        this.available = available;
-    }
+    @ManyToMany(mappedBy = "dishes")
+    private List<Order> orders;
 
     public Long getId() {
         return id;
@@ -74,5 +66,13 @@ public class Dish {
 
     public void setMenus(List<Menu> menus) {
         this.menus = menus;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
