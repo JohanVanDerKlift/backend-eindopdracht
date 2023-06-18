@@ -2,7 +2,7 @@ package nl.johanvanderklift.backendeindopdracht.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class UserDto {
+public class UserInputDto {
     public Long id;
     @NotBlank
     public String email;

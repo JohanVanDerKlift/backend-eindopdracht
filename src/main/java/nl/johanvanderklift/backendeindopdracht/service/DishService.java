@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DishService {
@@ -44,6 +45,30 @@ public class DishService {
 
     public void deleteDish(Long id) {
         dishRepository.deleteById(id);
+    }
+
+    public Boolean setAvailabilityDish(Long id) {
+        Optional<Dish> dish = dishRepository.findById(id);
+        if (dish.isPresent()) {
+            Dish currentDish = dish.get();
+            currentDish.setAvailable(!currentDish.isAvailable());
+            dishRepository.save(currentDish);
+            return currentDish.isAvailable();
+        } else {
+            throw new RecordNotFoundException("Record with id: " + id + " not found");
+        }
+    }
+
+    public Double setDishPrice(Long id, double price) {
+        Optional<Dish> dish = dishRepository.findById(id);
+        if (dish.isPresent()) {
+            Dish currentDish = dish.get();
+            currentDish.setPrice(price);
+            dishRepository.save(currentDish);
+            return currentDish.getPrice();
+        } else {
+            throw new RecordNotFoundException("Record with id: " + id + " not found");
+        }
     }
 
     private DishDto transferDishToDto(Dish dish) {

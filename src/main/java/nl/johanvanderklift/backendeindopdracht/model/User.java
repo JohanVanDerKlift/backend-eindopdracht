@@ -19,6 +19,7 @@ public class User {
     private String adres;
     private String zipCode;
     private String phoneNumber;
+    private boolean hasCredit;
 
     public Long getId() {
         return id;
@@ -90,5 +91,13 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public boolean getHasCredit() {
+        return hasCredit;
+    }
+
+    public void setHasCredit(boolean hasCredit) {
+        this.hasCredit = hasCredit;
     }
 }

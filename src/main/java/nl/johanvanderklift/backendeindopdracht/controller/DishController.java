@@ -40,7 +40,7 @@ public class DishController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateDish(@PathVariable Long id, @RequestBody DishDto dto, BindingResult br) {
+    public ResponseEntity<String> updateDish(@PathVariable Long id, @RequestParam DishDto dto, BindingResult br) {
         if (br.hasFieldErrors()) {
             return ResponseEntity.badRequest().body(getBindingResult(br));
         } else {
@@ -52,6 +52,22 @@ public class DishController {
     @DeleteMapping("/{id}")
     public void deleteDish(@PathVariable Long id) {
         dishService.deleteDish(id);
+    }
+
+    @PatchMapping("/set_availability/{id}")
+    public ResponseEntity<Boolean> setDishAvailability(@PathVariable Long id) {
+        Boolean available = dishService.setAvailabilityDish(id);
+        return ResponseEntity.ok().body(available);
+    }
+
+    @PatchMapping("/set_price/{id}")
+    public ResponseEntity<Object> setDishPrice(@PathVariable Long id, @RequestBody double price, BindingResult br) {
+        if (br.hasFieldErrors()) {
+            return ResponseEntity.badRequest().body(getBindingResult(br));
+        } else {
+            Double newPrice = dishService.setDishPrice(id, price);
+            return ResponseEntity.ok().body(newPrice);
+        }
     }
 
     private String getBindingResult(BindingResult br) {
