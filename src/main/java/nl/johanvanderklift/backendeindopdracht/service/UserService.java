@@ -19,10 +19,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Long createUser(UserInputDto dto) {
+    public String createUser(UserInputDto dto) {
         User user = new User();
         userRepository.save(transferDtoToUser(dto, user));
-        return user.getId();
+        return user.getEmail();
     }
 
     public List<UserOutputDto> getAllUsers() {
@@ -34,31 +34,39 @@ public class UserService {
         return dtos;
     }
 
-    public UserOutputDto getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record with id: " + id + " not found"));
-        return transferUserToDto(user);
-    }
-
-    public void updateUser(Long id, UserInputDto dto) {
-        User oldUser = userRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record with id: " + id + " not found"));
-        if (oldUser != null) {
-            userRepository.save(transferDtoToUser(dto, oldUser));
+    public UserOutputDto getUserByEmail(String email) {
+        Optional<User> user = userRepository.findUserByEmail(email);
+        if (user.isPresent()) {
+            User currentUser = user.get();
+            return transferUserToDto(currentUser);
+        } else {
+            throw new RecordNotFoundException("User with email " + email + "  was not found");
         }
     }
 
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public void updateUser(String email, UserInputDto dto) {
+        Optional<User> oldUser = userRepository.findUserByEmail(email);
+        if (oldUser.isPresent()) {
+            User newUser = oldUser.get();
+            userRepository.save(transferDtoToUser(dto, newUser));
+        } else {
+            throw new RecordNotFoundException("User with email " + email + "  was not found");
+        }
     }
 
-    public Boolean toggleUserHasCredit(Long id) {
-        Optional<User> user = userRepository.findById(id);
+    public void deleteUser(String email) {
+        userRepository.deleteUserByEmail(email);
+    }
+
+    public Boolean toggleUserHasCredit(String email) {
+        Optional<User> user = userRepository.findUserByEmail(email);
         if (user.isPresent()) {
             User currentUser = user.get();
-            currentUser.setHasCredit(!currentUser.getHasCredit());
+            currentUser.setHasCredit(!currentUser.isHasCredit());
             userRepository.save(currentUser);
-            return currentUser.getHasCredit();
+            return currentUser.isHasCredit();
         } else {
-            throw new RecordNotFoundException("Record with id: " + id + " not found");
+            throw new RecordNotFoundException("User with email " + email + " was not found");
         }
     }
 
@@ -77,7 +85,6 @@ public class UserService {
 
     private UserOutputDto transferUserToDto(User user) {
         UserOutputDto dto = new UserOutputDto();
-        dto.id = user.getId();
         dto.firstName = user.getFirstName();
         dto.lastName = user.getLastName();
         dto.adres = user.getAdres();
@@ -86,6 +93,7 @@ public class UserService {
         dto.zipCode = user.getZipCode();
         dto.email = user.getEmail();
         dto.password = user.getPassword();
+        dto.hasCredit = user.isHasCredit();
         return dto;
     }
 }

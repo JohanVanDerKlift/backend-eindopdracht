@@ -28,10 +28,10 @@ public class UserController {
         if (br.hasFieldErrors()) {
             return ResponseEntity.badRequest().body(getBindingResult(br));
         } else {
-            Long newId = userService.createUser(dto);
+            String email = userService.createUser(dto);
             URI uri = URI.create(ServletUriComponentsBuilder
-                    .fromCurrentRequest().path("/" + newId).toUriString());
-            return ResponseEntity.created(uri).body(newId);
+                    .fromCurrentRequest().path("/" + email).toUriString());
+            return ResponseEntity.created(uri).body(email);
         }
     }
 
@@ -40,30 +40,25 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserOutputDto> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getUserById(id));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable Long id, @Valid @RequestBody UserInputDto dto, BindingResult br) {
+    @PutMapping("/{email}")
+    public ResponseEntity<Object> updateUser(@PathVariable String email, @Valid @RequestBody UserInputDto dto, BindingResult br) {
         if (br.hasFieldErrors()) {
             return ResponseEntity.badRequest().body(getBindingResult(br));
         } else {
-            userService.updateUser(id, dto);
+            userService.updateUser(email, dto);
             return ResponseEntity.ok("User was updated");
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{email}")
+    public ResponseEntity<String> deleteUser(@PathVariable String email) {
+        userService.deleteUser(email);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/has_credit/{id}")
-    public ResponseEntity<Boolean> setHasCredit(@PathVariable Long id) {
-        Boolean result = userService.toggleUserHasCredit(id);
+    @PutMapping("/has_credit/{email}")
+    public ResponseEntity<Boolean> setHasCredit(@PathVariable String email) {
+        Boolean result = userService.toggleUserHasCredit(email);
         return ResponseEntity.ok().body(result);
     }
 
@@ -74,6 +69,4 @@ public class UserController {
         }
         return sb.toString();
     }
-
-
 }
