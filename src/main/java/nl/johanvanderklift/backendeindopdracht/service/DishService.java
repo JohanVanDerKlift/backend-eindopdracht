@@ -51,9 +51,9 @@ public class DishService {
         Optional<Dish> dish = dishRepository.findById(id);
         if (dish.isPresent()) {
             Dish currentDish = dish.get();
-            currentDish.setAvailable(!currentDish.isAvailable());
+            currentDish.setAvailable(!currentDish.getAvailable());
             dishRepository.save(currentDish);
-            return currentDish.isAvailable();
+            return currentDish.getAvailable();
         } else {
             throw new RecordNotFoundException("Record with id: " + id + " not found");
         }
@@ -77,7 +77,7 @@ public class DishService {
         dto.name = dish.getName();
         dto.category = dish.getCategory();
         dto.price = dish.getPrice();
-        dto.available = dish.isAvailable();
+        dto.available = dish.getAvailable();
         return dto;
     }
 

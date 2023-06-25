@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -30,5 +32,8 @@ public class User {
     private String phoneNumber;
     @Column(nullable = false)
     private boolean hasCredit;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
 }

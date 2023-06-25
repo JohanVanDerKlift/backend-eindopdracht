@@ -50,13 +50,16 @@ INSERT INTO dish (id, available, category, name, price) VALUES ('163', 'true', '
 INSERT INTO dish (id, available, category, name, price) VALUES ('179', 'true', 'Vegetarische gerechten', 'Hong sieuw taufoe (gebakken taufoe met oestersaus)', '10.00');
 INSERT INTO dish (id, available, category, name, price) VALUES ('180', 'true', 'Vegetarische gerechten', 'Lo hon tsaai (Chinese vegetarische mix)', '10.00');
 
-INSERT INTO menu (id, type) VALUES ('1', 'Afhaal');
-INSERT INTO menu (id, type) VALUES ('2', 'Bezorg');
+INSERT INTO menus (id, type) VALUES ('1', 'Afhaal');
+INSERT INTO menus (id, type) VALUES ('2', 'Bezorg');
 
-INSERT INTO menu_dishes (menus_id, dishes_id) VALUES ('1', '1');
-INSERT INTO menu_dishes (menus_id, dishes_id) VALUES ('1', '2');
-INSERT INTO menu_dishes (menus_id, dishes_id) VALUES ('1', '3');
-INSERT INTO menu_dishes (menus_id, dishes_id) VALUES ('1', '4');
-INSERT INTO menu_dishes (menus_id, dishes_id) VALUES ('1', '5');
-INSERT INTO menu_dishes (menus_id, dishes_id) VALUES ('1', '11');
+INSERT INTO menus_dishes (menus_id, dishes_id) VALUES ('1', '1');
+INSERT INTO menus_dishes (menus_id, dishes_id) VALUES ('1', '2');
+INSERT INTO menus_dishes (menus_id, dishes_id) VALUES ('1', '3');
+INSERT INTO menus_dishes (menus_id, dishes_id) VALUES ('1', '4');
+INSERT INTO menus_dishes (menus_id, dishes_id) VALUES ('1', '5');
+INSERT INTO menus_dishes (menus_id, dishes_id) VALUES ('1', '11');
+
+INSERT INTO users (email, password, first_name, last_name, company_name, adres, zip_code, phone_number, has_credit)
+Values ('info@johanvanderklift.nl', 'password', 'Johan', 'van der Klift', ' Van Der Klift Installaties', ' Pastoriedijk 386-9', ' 3195 HN', ' 0627071031', ' false');
 

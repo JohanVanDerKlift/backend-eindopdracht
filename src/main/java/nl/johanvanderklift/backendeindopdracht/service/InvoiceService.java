@@ -52,7 +52,7 @@ public class InvoiceService {
         invoice.setTax(dto.tax);
         invoice.setDeliveryCost(dto.deliveryCost);
         invoice.setTotalPrice(dto.totalPrice);
-        invoice.setPaid(dto.isPaid);
+        invoice.setIsPaid(dto.isPaid);
         return invoice;
     }
 
@@ -62,7 +62,7 @@ public class InvoiceService {
         dto.tax = invoice.getTax();
         dto.deliveryCost = invoice.getDeliveryCost();
         dto.totalPrice = invoice.getTotalPrice();
-        dto.isPaid = invoice.isPaid();
+        dto.isPaid = invoice.getIsPaid();
         return dto;
     }
 }

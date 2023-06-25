@@ -3,23 +3,30 @@ package nl.johanvanderklift.backendeindopdracht.service;
 import nl.johanvanderklift.backendeindopdracht.dto.OrderDto;
 import nl.johanvanderklift.backendeindopdracht.exception.RecordNotFoundException;
 import nl.johanvanderklift.backendeindopdracht.model.Order;
+import nl.johanvanderklift.backendeindopdracht.model.OrderLine;
 import nl.johanvanderklift.backendeindopdracht.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final OrderLineService orderLineService;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, OrderLineService orderLineService) {
         this.orderRepository = orderRepository;
+        this.orderLineService = orderLineService;
     }
 
     public Long createOrder(OrderDto dto) {
         Order order = new Order();
         orderRepository.save(transferDtoToOrder(dto, order));
+        for (OrderLine orderLine : order.getOrderLines()) {
+            orderLineService.setOrderId(order, orderLine);
+        }
         return order.getId();
     }
 
@@ -49,7 +56,7 @@ public class OrderService {
     }
 
     private Order transferDtoToOrder(OrderDto dto, Order order) {
-        order.setDateTime(dto.dateTime);
+        order.setDateTime(LocalDateTime.now());
         return order;
     }
 

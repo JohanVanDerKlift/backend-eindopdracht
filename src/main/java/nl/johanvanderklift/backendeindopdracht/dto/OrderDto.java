@@ -1,6 +1,8 @@
 package nl.johanvanderklift.backendeindopdracht.dto;
 
+import java.time.LocalDateTime;
+
 public class OrderDto {
     public Long id;
-    public String dateTime;
+    public LocalDateTime dateTime;
 }
