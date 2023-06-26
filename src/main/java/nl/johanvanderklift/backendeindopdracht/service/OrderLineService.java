@@ -34,8 +34,11 @@ public class OrderLineService {
         orderLine.setAmount(dto.amount);
         orderLine.setDishName(dto.dishName);
         orderLine.setPrice(dto.price);
-        Optional<Order> order = orderRepository.findById(dto.orderId);
-        order.ifPresent(orderLine::setOrder);
+        orderLine.setTotalPrice(dto.price * dto.amount);
+        if (dto.orderId != null) {
+            Optional<Order> order = orderRepository.findById(dto.orderId);
+            order.ifPresent(orderLine::setOrder);
+        }
         return orderLine;
     }
 }

@@ -24,7 +24,7 @@ public class OrderService {
     public Long createOrder(OrderDto dto) {
         Order order = new Order();
         orderRepository.save(transferDtoToOrder(dto, order));
-        for (OrderLine orderLine : order.getOrderLines()) {
+        for (OrderLine orderLine : dto.orderLines) {
             orderLineService.setOrderId(order, orderLine);
         }
         return order.getId();
