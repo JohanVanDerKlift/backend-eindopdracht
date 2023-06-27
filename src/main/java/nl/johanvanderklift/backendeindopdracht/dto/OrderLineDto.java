@@ -5,5 +5,6 @@ public class OrderLineDto {
     public int amount;
     public String dishName;
     public double price;
+    public double totalPrice;
     public Long orderId;
 }

@@ -1,12 +1,15 @@
 package nl.johanvanderklift.backendeindopdracht.service;
 
 import nl.johanvanderklift.backendeindopdracht.dto.OrderLineDto;
+import nl.johanvanderklift.backendeindopdracht.exception.RecordNotFoundException;
 import nl.johanvanderklift.backendeindopdracht.model.Order;
 import nl.johanvanderklift.backendeindopdracht.model.OrderLine;
 import nl.johanvanderklift.backendeindopdracht.repository.OrderLineRepository;
 import nl.johanvanderklift.backendeindopdracht.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +25,43 @@ public class OrderLineService {
         OrderLine orderLine = new OrderLine();
         orderLineRepository.save(transferDtoToOrderline(dto, orderLine));
         return orderLine.getId();
+    }
+
+    public OrderLineDto getOrderLineById(Long id) {
+        Optional<OrderLine> orderLine= orderLineRepository.findById(id);
+        if (orderLine.isPresent()) {
+            OrderLineDto dto = transferOrderLineToDto(orderLine.get());
+            return dto;
+        } else {
+            throw new RecordNotFoundException("Order line with id: " + id + " not found");
+        }
+    }
+
+    public List<OrderLineDto> getOrderLinesByIds(Iterable<Long> ids) {
+        Iterable<OrderLine> orderLines = orderLineRepository.findAllById(ids);
+        List<OrderLineDto> dtos = new ArrayList<>();
+        for (OrderLine orderLine : orderLines) {
+            dtos.add(transferOrderLineToDto(orderLine));
+        }
+        return dtos;
+    }
+
+    public void updateOrderLine(Long id, OrderLineDto dto) {
+        Optional<OrderLine> optionalOrderLine = orderLineRepository.findById(id);
+        if (optionalOrderLine.isPresent()) {
+            orderLineRepository.save(transferDtoToOrderline(dto, optionalOrderLine.get()));
+        } else {
+            throw new RecordNotFoundException("Order line with id: " + id + " not found")
+        }
+    }
+
+    public void deleteOrderLine(Long id) {
+        Optional<OrderLine> optionalOrderLine = orderLineRepository.findById(id);
+        if (optionalOrderLine.isPresent()) {
+            orderLineRepository.delete(optionalOrderLine.get());
+        } else {
+            throw new RecordNotFoundException("Order line with id: " + id + " not found");
+        }
     }
 
     public void setOrderId(Order order, OrderLine orderLine) {
@@ -40,5 +80,14 @@ public class OrderLineService {
             order.ifPresent(orderLine::setOrder);
         }
         return orderLine;
+    }
+
+    private OrderLineDto transferOrderLineToDto(OrderLine orderLine) {
+        OrderLineDto dto = new OrderLineDto();
+        dto.amount = orderLine.getAmount();
+        dto.dishName = orderLine.getDishName();
+        dto.price = orderLine.getPrice();
+        dto.totalPrice = orderLine.getTotalPrice();
+        return dto;
     }
 }

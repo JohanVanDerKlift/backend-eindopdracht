@@ -57,6 +57,7 @@ public class OrderService {
 
     private Order transferDtoToOrder(OrderDto dto, Order order) {
         order.setDateTime(LocalDateTime.now());
+        order.setUser(dto.user);
         return order;
     }
 
