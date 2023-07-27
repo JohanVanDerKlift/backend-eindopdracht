@@ -77,6 +77,7 @@ public class DishService {
         dto.name = dish.getName();
         dto.category = dish.getCategory();
         dto.price = dish.getPrice();
+        dto.tax = dish.getTax();
         dto.available = dish.getAvailable();
         return dto;
     }
@@ -85,6 +86,7 @@ public class DishService {
         dish.setName(dto.name);
         dish.setCategory(dto.category);
         dish.setPrice(dto.price);
+        dish.setTax(dto.tax);
         dish.setAvailable(dto.available);
         return dish;
     }

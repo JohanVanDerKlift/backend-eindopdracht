@@ -43,6 +43,11 @@ public class InvoiceController {
         return ResponseEntity.ok(invoiceService.getInvoiceById(id));
     }
 
+    @GetMapping("/is_paid/{id}")
+    public ResponseEntity<Boolean> isInvoicePaid(@PathVariable Long id) {
+        return ResponseEntity.ok(invoiceService.isInvoicePaid(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updateInvoice(@PathVariable Long id, @RequestBody InvoiceDto dto) {
         invoiceService.updateInvoice(id, dto);

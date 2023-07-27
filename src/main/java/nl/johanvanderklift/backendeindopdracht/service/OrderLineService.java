@@ -51,7 +51,7 @@ public class OrderLineService {
         if (optionalOrderLine.isPresent()) {
             orderLineRepository.save(transferDtoToOrderline(dto, optionalOrderLine.get()));
         } else {
-            throw new RecordNotFoundException("Order line with id: " + id + " not found")
+            throw new RecordNotFoundException("Order line with id: " + id + " not found");
         }
     }
 

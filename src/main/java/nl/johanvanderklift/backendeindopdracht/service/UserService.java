@@ -35,7 +35,7 @@ public class UserService {
     }
 
     public UserOutputDto getUserByEmail(String email) {
-        Optional<User> user = userRepository.findUserByEmail(email);
+        Optional<User> user = userRepository.findUserByEmailIgnoreCase(email);
         if (user.isPresent()) {
             User currentUser = user.get();
             return transferUserToDto(currentUser);
@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public void updateUser(String email, UserInputDto dto) {
-        Optional<User> oldUser = userRepository.findUserByEmail(email);
+        Optional<User> oldUser = userRepository.findUserByEmailIgnoreCase(email);
         if (oldUser.isPresent()) {
             User newUser = oldUser.get();
             userRepository.save(transferDtoToUser(dto, newUser));
@@ -55,11 +55,11 @@ public class UserService {
     }
 
     public void deleteUser(String email) {
-        userRepository.deleteUserByEmail(email);
+        userRepository.deleteUserByEmailIgnoreCase(email);
     }
 
     public Boolean toggleUserHasCredit(String email) {
-        Optional<User> user = userRepository.findUserByEmail(email);
+        Optional<User> user = userRepository.findUserByEmailIgnoreCase(email);
         if (user.isPresent()) {
             User currentUser = user.get();
             currentUser.setHasCredit(!currentUser.isHasCredit());

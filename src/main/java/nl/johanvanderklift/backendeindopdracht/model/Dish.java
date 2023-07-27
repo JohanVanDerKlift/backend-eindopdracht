@@ -22,6 +22,8 @@ public class Dish {
     @NotNull
     private Double price;
     @NotNull
+    private Double tax;
+    @NotNull
     private Boolean available;
     @ManyToMany(mappedBy = "dishes")
     private List<Menu> menus;

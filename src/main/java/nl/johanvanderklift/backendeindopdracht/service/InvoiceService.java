@@ -1,13 +1,16 @@
 package nl.johanvanderklift.backendeindopdracht.service;
 
 import nl.johanvanderklift.backendeindopdracht.dto.InvoiceDto;
+import nl.johanvanderklift.backendeindopdracht.dto.OrderDto;
 import nl.johanvanderklift.backendeindopdracht.exception.RecordNotFoundException;
 import nl.johanvanderklift.backendeindopdracht.model.Invoice;
+import nl.johanvanderklift.backendeindopdracht.model.Order;
 import nl.johanvanderklift.backendeindopdracht.repository.InvoiceRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InvoiceService {
@@ -35,6 +38,16 @@ public class InvoiceService {
     public InvoiceDto getInvoiceById(Long id) {
         Invoice invoice = invoiceRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Record with id: " + id + " not found"));
         return transferInvoiceToDto(invoice);
+    }
+
+    public boolean isInvoicePaid(Long id) {
+        Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
+        if (optionalInvoice.isPresent()) {
+            InvoiceDto invoiceDto = transferInvoiceToDto(optionalInvoice.get());
+            return invoiceDto.isPaid;
+        } else {
+            throw new RecordNotFoundException("invoice with id " + id + " not found");
+        }
     }
 
     public void updateInvoice(Long id, InvoiceDto dto) {

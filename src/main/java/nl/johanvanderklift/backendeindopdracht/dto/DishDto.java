@@ -10,5 +10,6 @@ public class DishDto {
     @NotBlank
     public String category;
     public double price;
+    public double tax;
     public boolean available;
 }
